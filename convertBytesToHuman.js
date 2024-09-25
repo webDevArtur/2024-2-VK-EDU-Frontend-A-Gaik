@@ -18,13 +18,13 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  if (typeof bytes !== 'number' || bytes < 0 || Number.isNaN(bytes)) {
+  if (typeof bytes !== 'number' || bytes < 0 || Number.isNaN(bytes) || !Number.isInteger(bytes)) {
       return false;
   }
-  
+
   if (bytes === 0) {
-      return '0 B';
-  }
+    return '0 B';
+  }  
 
   const arr = ['B', 'KB', 'MB', 'GB', 'TB'];
   
@@ -35,6 +35,6 @@ export default function convertBytesToHuman(bytes) {
       index++;
   }
 
-  return `${parseFloat(bytes.toFixed(2)).toString()} ${arr[index]}`;
+  return `${parseFloat(bytes.toFixed(2))} ${arr[index]}`;
 }
 

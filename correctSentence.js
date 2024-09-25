@@ -27,5 +27,5 @@ export default function correctSentence(text) {
     const firstLetter = text.charAt(0).toUpperCase();
     const lastLetter = text.endsWith('.') ? '' : '.';
     
-    return firstLetter + text.slice(1) + lastLetter;
+    return `${firstLetter}${text.slice(1)}${lastLetter}`;
 }
