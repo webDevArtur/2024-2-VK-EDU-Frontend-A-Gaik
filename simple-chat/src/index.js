@@ -79,7 +79,7 @@ function loadMessages() {
         noMessagesElement.classList.add('noMessages');
         
         const imageElement = document.createElement('img');
-        imageElement.src = '../public/noMessage.png';
+        imageElement.src = 'public/noMessage.png';
         imageElement.alt = 'Нет сообщений';
         imageElement.classList.add('noMessagesImage');
 
