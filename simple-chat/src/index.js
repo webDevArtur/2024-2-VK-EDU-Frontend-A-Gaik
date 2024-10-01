@@ -13,7 +13,10 @@ function handleSubmit(event) {
     event.preventDefault();
 
     const messageText = input.value.trim();
-    if (messageText === '') return;
+    
+    if (messageText === '') {
+        return;
+    }
 
     const message = {
         text: messageText,
@@ -24,11 +27,13 @@ function handleSubmit(event) {
     addMessageToDOM(message);
     saveMessageToLocalStorage(message);
     input.value = '';
+    input.focus();
 }
 
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
-        form.dispatchEvent(new Event('submit'));
+        event.preventDefault();
+        handleSubmit(event);
     }
 }
 
@@ -64,35 +69,46 @@ function addMessageToDOM(message) {
 
 
 function saveMessageToLocalStorage(message) {
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push(message);
-    localStorage.setItem('messages', JSON.stringify(messages));
+    const messageId = Date.now();
+    localStorage.setItem(`message_${messageId}`, JSON.stringify(message));
+}
+
+function displayNoMessages() {
+    const noMessagesElement = document.createElement('div');
+    noMessagesElement.classList.add('noMessages');
+        
+    const imageElement = document.createElement('img');
+    imageElement.src = 'public/noMessage.png';
+    imageElement.alt = 'Нет сообщений';
+    imageElement.classList.add('noMessagesImage');
+
+    const textElement = document.createElement('div');
+    textElement.innerHTML = 'Здесь будет выводиться список<br>Ваших сообщений.';
+    textElement.classList.add('noMessagesText');
+
+    noMessagesElement.appendChild(imageElement);
+    noMessagesElement.appendChild(textElement);
+
+    messagesContainer.appendChild(noMessagesElement);
 }
 
 function loadMessages() {
     messagesContainer.innerHTML = '';
+    let hasMessages = false;
 
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('message_')) {
+            const message = JSON.parse(localStorage.getItem(key));
+            addMessageToDOM(message);
+            hasMessages = true;
+        }
+    }
 
-    if (messages.length === 0) {
-        const noMessagesElement = document.createElement('div');
-        noMessagesElement.classList.add('noMessages');
-        
-        const imageElement = document.createElement('img');
-        imageElement.src = 'public/noMessage.png';
-        imageElement.alt = 'Нет сообщений';
-        imageElement.classList.add('noMessagesImage');
-
-        const textElement = document.createElement('div');
-        textElement.innerHTML = 'Здесь будет выводиться список<br>Ваших сообщений.';
-        textElement.classList.add('noMessagesText');
-
-        noMessagesElement.appendChild(imageElement);
-        noMessagesElement.appendChild(textElement);
-
-        messagesContainer.appendChild(noMessagesElement);
-    } else {
-        messages.forEach(addMessageToDOM);
+    if (!hasMessages) {
+        displayNoMessages();
     }
 }
+
+
 
