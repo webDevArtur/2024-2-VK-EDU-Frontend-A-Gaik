@@ -69,9 +69,11 @@ function addMessageToDOM(message) {
 
 
 function saveMessageToLocalStorage(message) {
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push(message);
-    localStorage.setItem('messages', JSON.stringify(messages));
+    const messageCount = parseInt(localStorage.getItem('messageCount')) || 0;
+    const newMessageKey = `message_${messageCount + 1}`;
+
+    localStorage.setItem(newMessageKey, JSON.stringify(message));
+    localStorage.setItem('messageCount', messageCount + 1);
 }
 
 function displayNoMessages() {
@@ -96,14 +98,19 @@ function displayNoMessages() {
 function loadMessages() {
     messagesContainer.innerHTML = '';
 
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
+    const messageCount = parseInt(localStorage.getItem('messageCount')) || 0;
 
-    if (messages.length !== 0) {
-        messages.forEach(addMessageToDOM);
+    if (messageCount === 0) {
+        displayNoMessages();
         return;
     }
 
-    displayNoMessages();
+    for (let i = 1; i <= messageCount; i++) {
+        const message = JSON.parse(localStorage.getItem(`message_${i}`));
+        if (message) {
+            addMessageToDOM(message);
+        }
+    }
 }
 
 
