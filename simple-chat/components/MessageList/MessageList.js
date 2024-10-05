@@ -15,7 +15,7 @@ export function MessageList(messages) {
         .join('')
     : `
         <div class="noMessages">
-          <img src="/noMessage.png" alt="Нет сообщений" class="noMessagesImage" />
+          <img src="/2024-2-VK-EDU-Frontend-A-Gaik/noMessage.png" alt="Нет сообщений" class="noMessagesImage" />
           <div class="noMessagesText">Здесь будет выводиться список<br>Ваших сообщений.</div>
         </div>
       `
