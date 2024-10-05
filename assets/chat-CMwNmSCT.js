@@ -7,7 +7,7 @@ import{H as u}from"./Header-BXUx_0k7.js";function g(s){return`
         </div>
       `).join(""):`
         <div class="noMessages">
-          <img src="public/noMessage.png" alt="Нет сообщений" class="noMessagesImage" />
+          <img src="/noMessage.png" alt="Нет сообщений" class="noMessagesImage" />
           <div class="noMessagesText">Здесь будет выводиться список<br>Ваших сообщений.</div>
         </div>
       `}</div>
