@@ -6,8 +6,22 @@ import {
   loadMessagesFromLocalStorage,
 } from '../hooks/Storage.js'
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadMessages()
+function loadMessages(chatId) {
+  const messages = loadMessagesFromLocalStorage(chatId)
+
+  document
+    .querySelector('.app')
+    .insertAdjacentHTML('afterbegin', Header(true))
+  document
+    .querySelector('.app')
+    .insertAdjacentHTML('beforeend', MessageList(messages))
+  document
+    .querySelector('.app')
+    .insertAdjacentHTML('beforeend', MessageForm())
+}
+
+export function Chat(chatId) {
+  loadMessages(chatId)
 
   const form = document.querySelector('form')
   const input = document.querySelector('.formInput')
@@ -31,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     addMessageToDOM(message)
-    saveMessageToLocalStorage(message)
+    saveMessageToLocalStorage(message, chatId)
     input.value = ''
     input.focus()
   }
@@ -71,18 +85,4 @@ window.addEventListener('DOMContentLoaded', () => {
     messagesContainer.appendChild(messageWrapper)
     messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
-})
-
-function loadMessages() {
-  const messages = loadMessagesFromLocalStorage()
-
-  document
-    .querySelector('.chatContainer')
-    .insertAdjacentHTML('afterbegin', Header(true))
-  document
-    .querySelector('.chatContainer')
-    .insertAdjacentHTML('beforeend', MessageList(messages))
-  document
-    .querySelector('.chatContainer')
-    .insertAdjacentHTML('beforeend', MessageForm())
 }

@@ -7,8 +7,8 @@ export function Header(showBackArrow = false) {
                 ${
                   showBackArrow
                     ? `
-                    <i class="material-icons backArrowIcon">
-                        <a href="index.html" class="backArrowLink">arrow_back</a>
+                    <i class="material-icons backArrowIcon link" data-link="/2024-2-VK-EDU-Frontend-A-Gaik/">
+                        arrow_back
                     </i>
                 `
                     : ''

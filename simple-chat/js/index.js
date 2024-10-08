@@ -1,50 +1,34 @@
-import { Header } from '../components/Header/Header.js'
-import { ChatItem } from '../components/ChatItem/ChatItem.js'
-import { FloatingActionButton } from '../components/FloatingActionButton/FloatingActionButton.js'
+import { Chat } from './chat.js';
+import { Chats } from './chats.js';
 
-document.addEventListener('DOMContentLoaded', function () {
-  const chats = [
-    {
-      avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-      title: 'Дженнифер Эшли',
-      message: 'Ты куда пропал?',
-      time: '15:52',
-      unreadCount: 99,
-      isRead: false,
-    },
-    {
-      avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
-      title: 'Общество целых бокалов',
-      message: 'Новая встреча в пятницу.',
-      time: '14:30',
-      unreadCount: 0,
-      isRead: true,
-    },
-    {
-      avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
-      title: 'Антон Иванов',
-      message: 'Тоха, ты где?',
-      time: '15:52',
-      unreadCount: 0,
-      isRead: true,
-    },
-    {
-      avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-      title: 'Серёга (должен 2000Руб.)',
-      message: 'Серёг, это Ваня. Где бабло моё?',
-      time: '14:30',
-      unreadCount: 0,
-      isRead: false,
-    },
-  ]
+const app = document.querySelector('.app');
 
-  const chatList = document.querySelector('.chatList')
+const router = () => {
+    const path = window.location.pathname;
 
-  document.body.insertAdjacentHTML('afterbegin', Header())
+    app.innerHTML = '';
 
-  chats.forEach((chat) => {
-    chatList.insertAdjacentHTML('beforeend', ChatItem(chat))
-  })
+    const chatIdMatch = path.match(/\/chat\/(\d+)/);
+    if (chatIdMatch) {
+        Chat(chatIdMatch[1]);
+    } else {
+        Chats();
+    }
+};
 
-  document.body.insertAdjacentHTML('beforeend', FloatingActionButton())
-})
+const navigateTo = (path) => {
+    history.pushState(null, null, path);
+    router();
+};
+
+document.body.addEventListener('click', (e) => {
+    const linkElement = e.target.closest('.link');
+
+    if (linkElement) {
+        navigateTo(linkElement.getAttribute('data-link'));
+    }
+});
+
+window.addEventListener('popstate', router);
+
+router();
