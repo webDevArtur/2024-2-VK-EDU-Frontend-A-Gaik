@@ -1,3 +1,15 @@
+.incomingMessage {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.outgoingMessage {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
 .messages {
   display: flex;
   flex-direction: column;
@@ -47,6 +59,21 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.messageWrapper {
+  animation: slideIn 0.5s ease forwards;
 }
 
 .messageSender {

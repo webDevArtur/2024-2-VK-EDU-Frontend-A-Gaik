@@ -1,6 +1,6 @@
 import './Header.css'
 
-export function Header(showBackArrow = false) {
+export function Header(showBackArrow = false, searchValue = '') {
   return `
         <header class="chatHeader">
             <div class="chatTitle">
@@ -16,9 +16,13 @@ export function Header(showBackArrow = false) {
                 VKchat
                 <i class="material-icons chatTitleIcon">send</i>
             </div>
-            <div class="userInfo">
-                <i class="material-icons userInfoIcon">account_circle</i>
-                <span class="userName">Иван Иванов</span>
+
+            <div class="searchContainer">
+                ${!showBackArrow ? `<input type="text" id="searchInput" placeholder="Поиск" class="searchInput" value="${searchValue}" />` : ''}
+                <div class="userInfo">
+                    <i class="material-icons userInfoIcon">account_circle</i>
+                    <span class="userName">Иван Иванов</span>
+                </div>
             </div>
         </header>
     `
