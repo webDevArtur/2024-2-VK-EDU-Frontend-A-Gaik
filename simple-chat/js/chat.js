@@ -5,9 +5,12 @@ import {
   saveMessageToLocalStorage,
   loadMessagesFromLocalStorage,
 } from '../hooks/Storage.js'
+import { mockMessages } from '../public/messages.js'
 
 function loadMessages(chatId) {
-  const messages = loadMessagesFromLocalStorage(chatId)
+  const messagesList = loadMessagesFromLocalStorage(chatId);
+  const friendMessages = mockMessages.filter((message) => message.chatId === chatId);
+  const messages = [...friendMessages, ...messagesList]
 
   document
     .querySelector('.app')

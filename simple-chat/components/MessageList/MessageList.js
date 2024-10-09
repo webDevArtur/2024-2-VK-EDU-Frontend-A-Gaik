@@ -5,11 +5,13 @@ export function MessageList(messages) {
     ? messages
         .map(
           (message) => `
-        <div class="messageWrapper">
-          <div class="messageSender">${message.sender}</div>
-          <div class="messageText">${message.text}</div>
-          <div class="messageTimestamp">${message.timestamp}</div>
-        </div>
+          <div class="${message.source === 'user' ? 'incomingMessage' : 'outgoingMessage'}">
+            <div class="messageWrapper">
+              <div class="messageSender">${message.sender}</div>
+              <div class="messageText">${message.text}</div>
+              <div class="messageTimestamp">${message.timestamp}</div>
+            </div>
+          </div>
       `,
         )
         .join('')
