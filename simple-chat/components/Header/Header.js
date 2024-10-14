@@ -1,4 +1,4 @@
-import './Header.css'
+import './Header.css';
 
 export function Header(showBackArrow = false, searchValue = '') {
   return `
@@ -25,5 +25,5 @@ export function Header(showBackArrow = false, searchValue = '') {
                 </div>
             </div>
         </header>
-    `
+    `;
 }

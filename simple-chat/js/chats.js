@@ -1,22 +1,27 @@
 import { Header } from '../components/Header/Header.js';
 import { ChatItem } from '../components/ChatItem/ChatItem.js';
 import { FloatingActionButton } from '../components/FloatingActionButton/FloatingActionButton.js';
-import { Modal } from '../components/Modal/Modal.js';
 import { chats } from '../public/mocks.js';
+import { addChatModal } from '../components/addChatModal/addChatModal.js';
 
 let filteredChats = chats;
 let searchValue = '';
 
 function addChat() {
-  const modalHTML = Modal();
-  const app = document.querySelector('.app');
-  app.insertAdjacentHTML('beforeend', modalHTML);
+  addChatModal();
 
   const form = document.getElementById('chatForm');
-  const closeModalButton = document.getElementById('closeModal');
+  const avatarFileInput = document.getElementById('avatarFile');
 
-  form.addEventListener('submit', handleSubmit);
-  closeModalButton.addEventListener('click', closeModalHandler);
+  form.addEventListener('submit', (event) =>
+    handleSubmit(event, avatarFileInput)
+  );
+  document
+    .querySelector('.modal-close')
+    .addEventListener('click', closeModalHandler);
+  document
+    .querySelector('.modal-overlay')
+    .addEventListener('click', closeModalHandler);
 }
 
 function closeModalHandler() {
@@ -26,37 +31,57 @@ function closeModalHandler() {
   }
 }
 
-function handleSubmit(event) {
+function handleSubmit(event, avatarFileInput) {
   event.preventDefault();
   const name = document.getElementById('name').value;
-  const avatar = document.getElementById('avatar').value;
 
-  if (name && avatar) {
+  if (name) {
+    const file = avatarFileInput.files[0];
+    const avatar = file
+      ? URL.createObjectURL(file)
+      : `public/defaultAvatar.png`;
+
     const newChat = {
       id: String(chats.length + 1),
       avatar: avatar,
       title: name,
       message: '',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
       unreadCount: 0,
       isRead: true,
     };
 
     chats.push(newChat);
-    filteredChats = chats.filter(chat => chat.title.toLowerCase().includes(searchValue.toLowerCase()));
+    filteredChats = chats.filter((chat) =>
+      chat.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
     Chats();
     closeModalHandler();
   }
 }
 
 function handleSearch(event) {
-  searchValue = event.target.value.trim();
-  filteredChats = chats.filter(chat => chat.title.toLowerCase().includes(searchValue.toLowerCase()));
+  const newValue = event.target.value.trim();
+
+  if (newValue === searchValue) return;
+
+  searchValue = newValue;
+
+  filteredChats = chats.filter((chat) =>
+    chat.title.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   const chatListContainer = document.querySelector('.chatList');
-  
-  const chatItemsHtml = filteredChats.map(chat => ChatItem(chat)).join('');
-  chatListContainer.innerHTML = chatItemsHtml;
+
+  chatListContainer.innerHTML = '';
+
+  filteredChats.forEach((chat) => {
+    const chatItemElement = ChatItem(chat);
+    chatListContainer.appendChild(chatItemElement);
+  });
 }
 
 export function Chats() {
@@ -71,9 +96,14 @@ export function Chats() {
     searchInput.addEventListener('input', handleSearch);
   }
 
-  const chatItemsHtml = filteredChats.map(chat => ChatItem(chat)).join('');
-  const chatListContainer = `<div class="chatList">${chatItemsHtml}</div>`;
+  const chatListContainer = document.createElement('div');
+  chatListContainer.className = 'chatList';
 
-  chatList.insertAdjacentHTML('beforeend', chatListContainer);
+  filteredChats.forEach((chat) => {
+    const chatItemElement = ChatItem(chat);
+    chatListContainer.appendChild(chatItemElement);
+  });
+
+  chatList.appendChild(chatListContainer);
   chatList.appendChild(FloatingActionButton(addChat));
 }

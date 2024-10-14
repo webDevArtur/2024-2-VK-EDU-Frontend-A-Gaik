@@ -1,4 +1,4 @@
-import './MessageList.css'
+import './MessageList.css';
 
 export function MessageList(messages) {
   const messageListHTML = messages.length
@@ -12,7 +12,7 @@ export function MessageList(messages) {
               <div class="messageTimestamp">${message.timestamp}</div>
             </div>
           </div>
-      `,
+      `
         )
         .join('')
     : `
@@ -20,9 +20,9 @@ export function MessageList(messages) {
           <img src="/2024-2-VK-EDU-Frontend-A-Gaik/noMessage.png" alt="Нет сообщений" class="noMessagesImage" />
           <div class="noMessagesText">Здесь будет выводиться список<br>Ваших сообщений.</div>
         </div>
-      `
+      `;
 
   return `
     <div class="messages">${messageListHTML}</div>
-  `
+  `;
 }
