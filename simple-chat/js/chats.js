@@ -39,7 +39,7 @@ function handleSubmit(event, avatarFileInput) {
     const file = avatarFileInput.files[0];
     const avatar = file
       ? URL.createObjectURL(file)
-      : `public/defaultAvatar.png`;
+      : `/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png`;
 
     const newChat = {
       id: String(chats.length + 1),
