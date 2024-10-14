@@ -18,23 +18,27 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  if (typeof bytes !== 'number' || bytes < 0 || Number.isNaN(bytes) || !Number.isInteger(bytes)) {
-      return false;
+  if (
+    typeof bytes !== "number" ||
+    bytes < 0 ||
+    Number.isNaN(bytes) ||
+    !Number.isInteger(bytes)
+  ) {
+    return false;
   }
 
   if (bytes === 0) {
-    return '0 B';
-  }  
+    return "0 B";
+  }
 
-  const arr = ['B', 'KB', 'MB', 'GB', 'TB'];
-  
+  const arr = ["B", "KB", "MB", "GB", "TB"];
+
   let index = 0;
-  
+
   while (bytes >= 1024 && index < arr.length - 1) {
-      bytes /= 1024;
-      index++;
+    bytes /= 1024;
+    index++;
   }
 
   return `${parseFloat(bytes.toFixed(2))} ${arr[index]}`;
 }
-
