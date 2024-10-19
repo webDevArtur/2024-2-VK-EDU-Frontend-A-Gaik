@@ -1,4 +1,4 @@
-import './MessageForm.css'
+import './MessageForm.css';
 
 export function MessageForm() {
   return `
@@ -10,5 +10,5 @@ export function MessageForm() {
                 </button>
             </form>
         </div>
-    `
+    `;
 }

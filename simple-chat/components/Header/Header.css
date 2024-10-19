@@ -32,6 +32,12 @@
   margin-left: 5px;
 }
 
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .userInfo {
   display: flex;
   align-items: center;
@@ -45,4 +51,49 @@
 .userName {
   font-size: 16px;
   font-weight: 500;
+}
+
+.searchInput {
+  margin-right: 10px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  border: none;
+}
+
+.searchInput:focus {
+  outline: none;
+  border: none;
+}
+
+.searchInput:active {
+  outline: none;
+  border: none;
+}
+
+@media screen and (max-width: 500px) {
+  .chatHeader {
+    padding: 10px;
+  }
+
+  .chatTitle {
+    font-size: 16px;
+  }
+
+  .chatTitleIcon {
+    font-size: 20px;
+  }
+
+  .searchInput {
+    width: 130px;
+  }
+
+  .userInfoIcon {
+    font-size: 20px;
+  }
+
+  .userName {
+    font-size: 16px;
+  }
 }
