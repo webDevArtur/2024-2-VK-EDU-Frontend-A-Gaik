@@ -17,7 +17,7 @@ const AddChatModal = ({ onClose, onAddChat }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let avatarUrl = "public/defaultAvatar.png";
+    let avatarUrl = "/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png";
     if (avatarFile) {
       avatarUrl = await convertFileToBase64(avatarFile);
     }

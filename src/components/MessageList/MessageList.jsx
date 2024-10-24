@@ -23,7 +23,7 @@ const MessageList = ({ messages }) => {
     return (
       <div className={styles.noMessages}>
         <img
-          src="/noMessage.png"
+          src="/2024-2-VK-EDU-Frontend-A-Gaik/noMessage.png"
           alt="Нет сообщений"
           className={styles.noMessagesImage}
         />
