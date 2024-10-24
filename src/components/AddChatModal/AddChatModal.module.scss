@@ -1,0 +1,93 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+}
+
+.modalTitle {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.modalField {
+  margin-bottom: 15px;
+}
+
+.modalLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.modalButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #55759e;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modalButton:hover {
+  background-color: #466793;
+}
+
+.modalClose {
+  position: relative;
+  bottom: 1px;
+  font-size: 30px;
+  opacity: 0.6;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modalInput[type="file"] {
+  margin-top: 5px;
+}
+
+.modalInput[type="file"]::file-selector-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #55759e;
+  color: #ffffff;
+  transition: 1s;
+}
+
+.modalInput[type="file"]::file-selector-button:hover {
+  background-color: #466793;
+}

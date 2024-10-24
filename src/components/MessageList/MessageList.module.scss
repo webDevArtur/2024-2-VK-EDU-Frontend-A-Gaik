@@ -1,0 +1,120 @@
+.incomingMessage {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.outgoingMessage {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  height: 100%;
+  width: 80%;
+  padding: 10px;
+  margin: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(85, 117, 158, 0.7) transparent;
+}
+
+.noMessages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.noMessagesImage {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.noMessagesText {
+  text-align: center;
+  color: #706f72;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.messageWrapper {
+  max-width: 60%;
+  min-width: 30%;
+  background-color: #fff;
+  padding: 15px 20px;
+  margin: 15px 0;
+  border-radius: 10px;
+  word-wrap: break-word;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.messageSender {
+  font-weight: bold;
+  color: #55759e;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.messageText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.messageTimestamp {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.8);
+  text-align: right;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .messageWrapper {
+    min-width: 80%;
+  }
+
+  .noMessagesImage {
+    width: 65%;
+  }
+
+  .noMessagesText {
+    font-size: 12px;
+  }
+
+  .messageText {
+    font-size: 16px;
+  }
+
+  .messageSender {
+    font-size: 18px;
+  }
+
+  .messageTimestamp {
+    font-size: 14px;
+  }
+}
