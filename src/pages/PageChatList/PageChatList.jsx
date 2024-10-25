@@ -24,13 +24,33 @@ const PageChatList = ({ navigateToChat, searchValue }) => {
     chat.title.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
+  const resetUnreadCount = (chatId) => {
+    const updatedChats = chats.map((chat) =>
+      chat.id === chatId ? { ...chat, unreadCount: 0 } : chat,
+    );
+    setChats(updatedChats);
+    localStorage.setItem("chats", JSON.stringify(updatedChats));
+  };
+
+  const updateChatImage = (chatId, newAvatar) => {
+    const updatedChats = chats.map((chat) =>
+      chat.id === chatId ? { ...chat, avatar: newAvatar } : chat,
+    );
+    setChats(updatedChats);
+    localStorage.setItem("chats", JSON.stringify(updatedChats));
+  };
+
   return (
     <div className={styles.chatList}>
       {filteredChats.map((chat) => (
         <ChatItem
           key={chat.id}
           {...chat}
-          onClick={() => navigateToChat(chat.id)}
+          onClick={() => {
+            navigateToChat(chat.id);
+            resetUnreadCount(chat.id);
+          }}
+          handleImageClick={updateChatImage}
         />
       ))}
 

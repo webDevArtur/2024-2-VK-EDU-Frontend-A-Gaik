@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "../Modal/Modal";
 import styles from "./AddChatModal.module.scss";
 
 const convertFileToBase64 = (file) => {
@@ -40,51 +41,40 @@ const AddChatModal = ({ onClose, onAddChat }) => {
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.header}>
-          <h2 className={styles.modalTitle}>Добавить новый контакт</h2>
-
-          <button className={styles.modalClose} onClick={onClose}>
-            &times;
-          </button>
+    <Modal title="Добавить новый контакт" onClose={onClose}>
+      <form id="chatForm" onSubmit={handleSubmit}>
+        <div className={styles.modalField}>
+          <label className={styles.modalLabel} htmlFor="name">
+            Имя:
+          </label>
+          <input
+            className={styles.modalInput}
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
-        <form id="chatForm" onSubmit={handleSubmit}>
-          <div className={styles.modalField}>
-            <label className={styles.modalLabel} htmlFor="name">
-              Имя:
-            </label>
 
-            <input
-              className={styles.modalInput}
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+        <div className={styles.modalField}>
+          <label className={styles.modalLabel} htmlFor="avatarFile">
+            Аватар (загрузка):
+          </label>
+          <input
+            className={styles.modalInput}
+            type="file"
+            id="avatarFile"
+            accept="image/*"
+            onChange={(e) => setAvatarFile(e.target.files[0])}
+          />
+        </div>
 
-          <div className={styles.modalField}>
-            <label className={styles.modalLabel} htmlFor="avatarFile">
-              Аватар (загрузка):
-            </label>
-
-            <input
-              className={styles.modalInput}
-              type="file"
-              id="avatarFile"
-              accept="image/*"
-              onChange={(e) => setAvatarFile(e.target.files[0])}
-            />
-          </div>
-
-          <button className={styles.modalButton} type="submit">
-            Добавить
-          </button>
-        </form>
-      </div>
-    </div>
+        <button className={styles.modalButton} type="submit">
+          Добавить
+        </button>
+      </form>
+    </Modal>
   );
 };
 

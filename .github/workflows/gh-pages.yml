@@ -6,17 +6,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Install npm deps
         run: npm i
-        
+
       - name: Build app
         run: npm run build
-        
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

@@ -4,24 +4,19 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const Header = ({
-  showBackArrow = false,
-  searchValue = "",
-  onSearch,
-  onBack,
-}) => {
-  return (
-    <header className={styles.chatHeader}>
-      <div className={styles.chatTitle}>
-        {showBackArrow && (
-          <ArrowBackIcon className={styles.backArrowIcon} onClick={onBack} />
-        )}
-        VKchat
-        <SendIcon className={styles.chatTitleIcon} />
-      </div>
+const Header = React.memo(
+  ({ showBackArrow = false, searchValue = "", onSearch, onBack }) => {
+    return (
+      <header className={styles.chatHeader}>
+        <div className={styles.chatTitle}>
+          {showBackArrow && (
+            <ArrowBackIcon className={styles.backArrowIcon} onClick={onBack} />
+          )}
+          VKchat
+          <SendIcon className={styles.chatTitleIcon} />
+        </div>
 
-      <div className={styles.searchContainer}>
-        {!showBackArrow && (
+        <div className={styles.searchContainer}>
           <input
             type="text"
             id="searchInput"
@@ -30,16 +25,15 @@ const Header = ({
             value={searchValue}
             onChange={onSearch}
           />
-        )}
 
-        <div className={styles.userInfo}>
-          <AccountCircleIcon className={styles.userInfoIcon} />
-
-          <span className={styles.userName}>Иван Иванов</span>
+          <div className={styles.userInfo}>
+            <AccountCircleIcon className={styles.userInfoIcon} />
+            <span className={styles.userName}>Иван Иванов</span>
+          </div>
         </div>
-      </div>
-    </header>
-  );
-};
+      </header>
+    );
+  },
+);
 
 export default Header;
