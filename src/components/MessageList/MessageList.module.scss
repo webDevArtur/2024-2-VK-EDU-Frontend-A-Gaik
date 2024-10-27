@@ -73,6 +73,21 @@
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.messageWrapper {
+  animation: slideIn 0.5s ease forwards;
+}
+
 .messageSender {
   font-weight: bold;
   color: #55759e;
