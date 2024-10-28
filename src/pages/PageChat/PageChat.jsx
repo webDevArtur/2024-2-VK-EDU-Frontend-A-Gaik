@@ -6,9 +6,11 @@ import {
   saveMessageToLocalStorage,
 } from "../../helper/Storage";
 import { mockMessages } from "../../assets/messages";
+import { useParams } from "react-router-dom";
 import styles from "./PageChat.module.scss";
 
-const PageChat = ({ chatId, searchValue }) => {
+const PageChat = ({ searchValue }) => {
+  const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [friendName, setFriendName] = useState("");
   const [friendAvatar, setFriendAvatar] = useState("");
@@ -41,7 +43,7 @@ const PageChat = ({ chatId, searchValue }) => {
   };
 
   const filteredMessages = messages.filter((message) =>
-    message.text.toLowerCase().includes(searchValue.toLowerCase()),
+    message.text?.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
   return (

@@ -41,11 +41,14 @@
 .userInfo {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .userInfoIcon {
-  font-size: 30px;
-  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
 }
 
 .userName {

@@ -1,0 +1,112 @@
+.profilePage {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+.h2 {
+  text-align: center;
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.avatarWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 30px;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  .editIcon {
+    display: none;
+  }
+
+  &:hover {
+    .avatar {
+      display: none;
+    }
+
+    .editIcon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f5f5f5;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #00000080;
+    }
+  }
+}
+
+.formGroup {
+  margin-bottom: 15px;
+
+  .label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: #55759e;
+      outline: none;
+      box-shadow: 0 0 5px rgba(85, 117, 158, 0.3);
+    }
+  }
+}
+
+.saveButton {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #55759e;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #466793;
+  }
+}
+
+@media (max-width: 480px) {
+  .profilePage {
+    padding: 15px;
+  }
+
+  .h2 {
+    font-size: 1.6em;
+  }
+
+  .avatarWrapper .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}

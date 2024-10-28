@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ChatItem from "../../components/ChatItem/ChatItem";
 import { initialChats } from "../../assets/mocks";
 import FloatingActionButton from "../../components/FloatingActionButton/FloatingActionButton";
 import AddChatModal from "../../components/AddChatModal/AddChatModal";
 import styles from "./PageChatList.module.scss";
 
-const PageChatList = ({ navigateToChat, searchValue }) => {
+const PageChatList = ({ searchValue }) => {
   const [chats, setChats] = useState(() => {
     const savedChats = localStorage.getItem("chats");
     return savedChats ? JSON.parse(savedChats) : initialChats;
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const addChat = (newChat) => {
     const updatedChats = [...chats, newChat];
@@ -47,7 +49,7 @@ const PageChatList = ({ navigateToChat, searchValue }) => {
           key={chat.id}
           {...chat}
           onClick={() => {
-            navigateToChat(chat.id);
+            navigate(`/chat/${chat.id}`);
             resetUnreadCount(chat.id);
           }}
           handleImageClick={updateChatImage}
