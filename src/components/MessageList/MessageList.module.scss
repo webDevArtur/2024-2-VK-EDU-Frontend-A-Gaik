@@ -62,6 +62,13 @@
   animation: slideIn 0.5s ease forwards;
 }
 
+.messageImage {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(20px);

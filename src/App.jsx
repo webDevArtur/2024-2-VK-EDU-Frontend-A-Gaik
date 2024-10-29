@@ -30,6 +30,10 @@ const App = () => {
           element={<PageChat searchValue={searchValue} />}
         />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/404"
+          element={<NotFoundPage text="Пользователь не существует" />}
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

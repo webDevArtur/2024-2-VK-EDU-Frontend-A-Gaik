@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./MessageList.module.scss";
 
 const MessageList = ({ messages }) => {
-  const renderMessage = ({ source, sender, text, timestamp }, index) => (
+  const renderMessage = ({ source, sender, text, timestamp, image }, index) => (
     <div
       key={index}
       className={
@@ -13,6 +13,13 @@ const MessageList = ({ messages }) => {
         <div className={styles.messageSender}>{sender}</div>
 
         <div className={styles.messageText}>{text}</div>
+        {image && (
+          <img
+            src={image}
+            alt="image preview"
+            className={styles.messageImage}
+          />
+        )}
 
         <div className={styles.messageTimestamp}>{timestamp}</div>
       </div>

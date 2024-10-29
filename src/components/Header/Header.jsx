@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
@@ -36,8 +37,11 @@ const Header = React.memo(({ searchValue = "", onSearch }) => {
             onClick={handleBackClick}
           />
         )}
-        VKchat
-        <SendIcon className={styles.chatTitleIcon} />
+
+        <Link to="/" className={styles.chatTitleLink}>
+          VKchat
+          <SendIcon className={styles.chatTitleIcon} />
+        </Link>
       </div>
 
       {location.pathname !== "/profile" && (

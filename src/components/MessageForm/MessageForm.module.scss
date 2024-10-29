@@ -2,16 +2,17 @@
   width: 90%;
   margin-bottom: 10px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
 .form {
-  margin: 5px;
-  border-radius: 15px;
-  width: 90%;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px;
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
 }
 
 .formInput {
@@ -23,15 +24,31 @@
   width: calc(100% - 2px);
 }
 
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #55759e;
+  margin: 0 5px;
+}
+
+.iconButton:hover {
+  color: #0056b3;
+}
+
 .sendButton {
   background-color: #55759e;
   color: white;
   border: none;
   padding: 10px;
-  margin-left: 10px;
+  margin-left: 5px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -39,13 +56,75 @@
   background-color: #0056b3;
 }
 
+.fileInput {
+  display: none;
+}
+
+.emojiPicker {
+  position: absolute;
+  bottom: 80px;
+  right: 100px;
+  z-index: 1000;
+}
+
+.imagePreviewContainer {
+  margin-top: 10px;
+}
+
+.imagePreview {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+}
+
+.imagePreviewContainerWrapper {
+  width: 100%;
+}
+
+.imagePreviewContainer {
+  position: relative;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.imagePreview {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #333;
+}
+
+.removeImageButton:hover {
+  background-color: rgba(113, 113, 113, 0.8);
+  color: white;
+}
+
 @media (max-width: 768px) {
   .formInput {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .sendButton {
-    padding: 12px;
-    font-size: 20px;
+    padding: 8px;
+    font-size: 18px;
+  }
+
+  .emojiPicker {
+    right: 20px;
   }
 }

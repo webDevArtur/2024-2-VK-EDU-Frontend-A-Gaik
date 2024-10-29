@@ -34,14 +34,6 @@ const PageChatList = ({ searchValue }) => {
     localStorage.setItem("chats", JSON.stringify(updatedChats));
   };
 
-  const updateChatImage = (chatId, newAvatar) => {
-    const updatedChats = chats.map((chat) =>
-      chat.id === chatId ? { ...chat, avatar: newAvatar } : chat,
-    );
-    setChats(updatedChats);
-    localStorage.setItem("chats", JSON.stringify(updatedChats));
-  };
-
   return (
     <div className={styles.chatList}>
       {filteredChats.map((chat) => (
@@ -52,7 +44,6 @@ const PageChatList = ({ searchValue }) => {
             navigate(`/chat/${chat.id}`);
             resetUnreadCount(chat.id);
           }}
-          handleImageClick={updateChatImage}
         />
       ))}
 

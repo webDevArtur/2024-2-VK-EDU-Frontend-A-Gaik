@@ -2,7 +2,7 @@ import React from "react";
 import emptyPage from "../../../public/emptyPage.png";
 import styles from "./NotFoundPage.module.scss";
 
-const NotFoundPage = () => {
+const NotFoundPage = ({ text }) => {
   return (
     <div className={styles.notFound}>
       <img
@@ -11,7 +11,7 @@ const NotFoundPage = () => {
         alt="Страница не найдена"
       />
 
-      <h2>Страница не найдена</h2>
+      <h2>{text || "Страница не найдена"}</h2>
     </div>
   );
 };
