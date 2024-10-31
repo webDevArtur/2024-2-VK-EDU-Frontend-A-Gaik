@@ -1,0 +1,93 @@
+.chatItem {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.avatarWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70px;
+  height: 60px;
+  margin: 10px;
+}
+
+.avatar {
+  width: 60px;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.editIcon {
+  display: none;
+}
+
+.avatarWrapper:hover {
+  .avatar {
+    display: none;
+  }
+
+  .editIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f5f5f5;
+    width: 60px;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #00000080;
+  }
+}
+
+.chatDetails {
+  flex-grow: 1;
+
+  h2 {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+  }
+
+  p {
+    font-size: 14px;
+    color: #777;
+    margin: 0;
+  }
+}
+
+.chatMeta {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.readIcon {
+  font-size: 16px;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.badge {
+  background-color: #ff1744;
+  color: white;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 10px;
+}

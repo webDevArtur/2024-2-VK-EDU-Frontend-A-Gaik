@@ -1,0 +1,8 @@
+.chatList {
+  width: 100%;
+  height: calc(100% - 45px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(85, 117, 158, 0.7) transparent;
+  padding: 20px;
+}

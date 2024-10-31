@@ -1,0 +1,38 @@
+export const initialChats = [
+  {
+    id: "1",
+    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+    title: "Общество целых бокалов",
+    message: "Новая встреча в пятницу.",
+    time: "15:52",
+    unreadCount: 99,
+    isRead: false,
+  },
+  {
+    id: "2",
+    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+    title: "Дженнифер Эшли",
+    message: "",
+    time: "14:30",
+    unreadCount: 0,
+    isRead: true,
+  },
+  {
+    id: "3",
+    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
+    title: "Антон Иванов",
+    message: "",
+    time: "15:52",
+    unreadCount: 0,
+    isRead: true,
+  },
+  {
+    id: "4",
+    avatar: "https://randomuser.me/api/portraits/men/4.jpg",
+    title: "Серёга (должен 2000Руб.)",
+    message: "Вань, это Серёга. Где бабло моё?",
+    time: "14:30",
+    unreadCount: 0,
+    isRead: false,
+  },
+];

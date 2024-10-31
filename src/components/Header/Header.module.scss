@@ -1,0 +1,95 @@
+.chatHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #55759e;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chatTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.backArrowLink {
+  color: #fff;
+  text-decoration: none;
+}
+
+.backArrowIcon {
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.chatTitleIcon {
+  margin-left: 5px;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userInfoIcon {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.searchInput {
+  margin-right: 10px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  border: none;
+}
+
+.searchInput:focus,
+.searchInput:active {
+  outline: none;
+  border: none;
+}
+
+@media screen and (max-width: 500px) {
+  .chatHeader {
+    padding: 10px;
+  }
+
+  .chatTitle {
+    font-size: 16px;
+  }
+
+  .chatTitleIcon {
+    font-size: 20px;
+  }
+
+  .searchInput {
+    width: 130px;
+  }
+
+  .userInfoIcon {
+    font-size: 20px;
+  }
+
+  .userName {
+    font-size: 16px;
+  }
+}
