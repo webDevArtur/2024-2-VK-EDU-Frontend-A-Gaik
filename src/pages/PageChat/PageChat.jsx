@@ -58,7 +58,7 @@ const PageChat = ({ searchValue }) => {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      image: imageAttachment ? URL.createObjectURL(imageAttachment) : null,
+      image: imageAttachment.length > 0 ? imageAttachment : null,
     };
 
     saveMessageToLocalStorage(newMessage, chatId);

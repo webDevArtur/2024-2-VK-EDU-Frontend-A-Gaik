@@ -1,11 +1,11 @@
 .incomingMessage {
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: start;
 }
 
 .outgoingMessage {
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: end;
 }
@@ -13,11 +13,11 @@
 .messages {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
   height: 100%;
-  width: 80%;
-  padding: 10px;
-  margin: 10px;
+  width: 100%;
+  padding: 10px 0;
+  margin: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(85, 117, 158, 0.7) transparent;

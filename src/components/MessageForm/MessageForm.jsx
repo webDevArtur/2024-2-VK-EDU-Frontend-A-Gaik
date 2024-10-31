@@ -9,31 +9,44 @@ import styles from "./MessageForm.module.scss";
 const MessageForm = ({ onSubmit }) => {
   const [messageText, setMessageText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [imageAttachment, setImageAttachment] = useState(null);
+  const [imageAttachments, setImageAttachments] = useState([]);
 
   const handleEmojiClick = (emoji) => {
     setMessageText((prev) => prev + emoji.emoji);
     setShowEmojiPicker(false);
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setImageAttachment(file);
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      const file = files[0];
+      if (file.type.startsWith("image/")) {
+        const base64Image = await getBase64(file);
+        setImageAttachments([base64Image]);
+      }
     }
   };
 
   const handleRemoveImage = () => {
-    setImageAttachment(null);
+    setImageAttachments([]);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (messageText.trim() || imageAttachment) {
-      onSubmit(messageText, imageAttachment);
+    if (messageText.trim() || imageAttachments.length > 0) {
+      onSubmit(messageText, imageAttachments);
       setMessageText("");
-      setImageAttachment(null);
+      setImageAttachments([]);
     }
   };
 
@@ -79,11 +92,11 @@ const MessageForm = ({ onSubmit }) => {
         </button>
       </form>
 
-      {imageAttachment && (
+      {imageAttachments.length > 0 && (
         <div className={styles.imagePreviewContainerWrapper}>
           <div className={styles.imagePreviewContainer}>
             <img
-              src={URL.createObjectURL(imageAttachment)}
+              src={imageAttachments[0]}
               alt="attachment preview"
               className={styles.imagePreview}
             />

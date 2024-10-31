@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./ChatItem.module.scss";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import UpdateAvatarModal from "../UpdateAvatarModal/UpdateAvatarModal";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 const ChatItem = ({
   id,
