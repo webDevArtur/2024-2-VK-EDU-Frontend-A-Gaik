@@ -1,21 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Header = React.memo(
-  ({ showBackArrow = false, searchValue = "", onSearch, onBack }) => {
-    return (
-      <header className={styles.chatHeader}>
-        <div className={styles.chatTitle}>
-          {showBackArrow && (
-            <ArrowBackIcon className={styles.backArrowIcon} onClick={onBack} />
-          )}
+const Header = React.memo(({ searchValue = "", onSearch }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("Иван Иванов");
+  const [avatar, setAvatar] = useState(
+    `/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png`,
+  );
+  const showBackArrow =
+    location.pathname.startsWith("/chat/") || location.pathname === "/profile";
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    const storedProfile = localStorage.getItem("profile");
+    if (storedProfile) {
+      const profile = JSON.parse(storedProfile);
+      setUserName(`${profile.firstName} ${profile.lastName}`);
+      setAvatar(profile.avatar);
+    }
+  }, [location.pathname]);
+
+  return (
+    <header className={styles.chatHeader}>
+      <div className={styles.chatTitle}>
+        {showBackArrow && (
+          <ArrowBackIcon
+            className={styles.backArrowIcon}
+            onClick={handleBackClick}
+          />
+        )}
+
+        <Link to="/" className={styles.chatTitleLink}>
           VKchat
           <SendIcon className={styles.chatTitleIcon} />
-        </div>
+        </Link>
+      </div>
 
+      {location.pathname !== "/profile" && (
         <div className={styles.searchContainer}>
           <input
             type="text"
@@ -26,14 +55,14 @@ const Header = React.memo(
             onChange={onSearch}
           />
 
-          <div className={styles.userInfo}>
-            <AccountCircleIcon className={styles.userInfoIcon} />
-            <span className={styles.userName}>Иван Иванов</span>
+          <div className={styles.userInfo} onClick={() => navigate("/profile")}>
+            <img src={avatar} alt="Аватар" className={styles.userInfoIcon} />
+            <span className={styles.userName}>{userName}</span>
           </div>
         </div>
-      </header>
-    );
-  },
-);
+      )}
+    </header>
+  );
+});
 
 export default Header;

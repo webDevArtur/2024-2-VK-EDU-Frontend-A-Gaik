@@ -30,28 +30,6 @@
   border-radius: 50%;
 }
 
-.editIcon {
-  display: none;
-}
-
-.avatarWrapper:hover {
-  .avatar {
-    display: none;
-  }
-
-  .editIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #f5f5f5;
-    width: 60px;
-    height: 100%;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: #00000080;
-  }
-}
-
 .chatDetails {
   flex-grow: 1;
 

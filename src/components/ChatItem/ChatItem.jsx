@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./ChatItem.module.scss";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import UpdateAvatarModal from "../UpdateAvatarModal/UpdateAvatarModal";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 const ChatItem = ({
   id,
@@ -14,28 +12,11 @@ const ChatItem = ({
   unreadCount,
   isRead,
   onClick,
-  handleImageClick,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleUpdateAvatar = (newAvatar) => {
-    handleImageClick(id, newAvatar);
-  };
-
   return (
     <>
       <div className={styles.chatItem} onClick={() => onClick(id)}>
         <div className={styles.avatarWrapper}>
-          <span
-            className={styles.editIcon}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsModalOpen(true);
-            }}
-          >
-            <AddPhotoAlternateIcon />
-          </span>
-
           <img src={avatar} alt="Avatar" className={styles.avatar} />
         </div>
         <div className={styles.chatDetails}>
@@ -58,13 +39,6 @@ const ChatItem = ({
           )}
         </div>
       </div>
-
-      {isModalOpen && (
-        <UpdateAvatarModal
-          onClose={() => setIsModalOpen(false)}
-          onUpdate={handleUpdateAvatar}
-        />
-      )}
     </>
   );
 };
