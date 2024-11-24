@@ -1,59 +1,70 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ChatItem from "../../components/ChatItem/ChatItem";
-import { initialChats } from "../../assets/mocks";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FloatingActionButton from "../../components/FloatingActionButton/FloatingActionButton";
-import AddChatModal from "../../components/AddChatModal/AddChatModal";
-import styles from "./PageChatList.module.scss";
+import ChatItem from '../../components/ChatItem/ChatItem';
+import { Skeleton } from '@mui/material';
+import styles from './PageChatList.module.scss';
+import { getChats, deleteChat } from '../../services/chat';
+
+const defaultAvatar = '/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png';
 
 const PageChatList = ({ searchValue }) => {
-  const [chats, setChats] = useState(() => {
-    const savedChats = localStorage.getItem("chats");
-    return savedChats ? JSON.parse(savedChats) : initialChats;
-  });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chats, setChats] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const addChat = (newChat) => {
-    const updatedChats = [...chats, newChat];
-    setChats(updatedChats);
-    localStorage.setItem("chats", JSON.stringify(updatedChats));
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    const loadChats = async () => {
+      setLoading(true);
+      try {
+        const fetchedChats = await getChats(searchValue);
+        setChats(fetchedChats);
+        setError(null);
+      } catch (err) {
+        setError("Ошибка загрузки чатов: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const filteredChats = chats.filter((chat) =>
-    chat.title.toLowerCase().includes(searchValue.toLowerCase()),
-  );
+    loadChats();
+  }, [searchValue]);
 
-  const resetUnreadCount = (chatId) => {
-    const updatedChats = chats.map((chat) =>
-      chat.id === chatId ? { ...chat, unreadCount: 0 } : chat,
-    );
-    setChats(updatedChats);
-    localStorage.setItem("chats", JSON.stringify(updatedChats));
+  const handleDeleteChat = async (id) => {
+    try {
+      await deleteChat(id);
+      setChats((prevChats) => prevChats.filter(chat => chat.id !== id));
+    } catch (err) {
+      console.error("Ошибка при удалении чата:", err);
+    }
   };
 
   return (
     <div className={styles.chatList}>
-      {filteredChats.map((chat) => (
-        <ChatItem
-          key={chat.id}
-          {...chat}
-          onClick={() => {
-            navigate(`/chat/${chat.id}`);
-            resetUnreadCount(chat.id);
-          }}
-        />
-      ))}
-
-      <FloatingActionButton onClick={() => setIsModalOpen(true)} />
-      {isModalOpen && (
-        <AddChatModal
-          onClose={() => setIsModalOpen(false)}
-          onAddChat={addChat}
-        />
+      {loading ? (
+        <div>
+          {[...Array(5)].map((_, index) => (
+            <Skeleton key={index} variant="rectangular" width="100%" height={100} sx={{ marginBottom: 1 }} />
+          ))}
+        </div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : chats.length > 0 ? (
+        chats.map((chat) => (
+          <ChatItem
+            key={chat.id}
+            {...chat}
+            avatar={chat.avatar || defaultAvatar}
+            onClick={() => navigate(`/chat/${chat.id}`)}
+            onDelete={handleDeleteChat}
+          />
+        ))
+      ) : (
+        <div>Нет чатов</div>
       )}
+
+      <FloatingActionButton onClick={() => navigate('/add-chat')} />
     </div>
   );
 };
