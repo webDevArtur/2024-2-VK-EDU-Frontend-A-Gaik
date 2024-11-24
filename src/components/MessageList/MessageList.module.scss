@@ -69,6 +69,16 @@
   border-radius: 8px;
 }
 
+.skeletonWrapperSkeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: start;
+  width: 100%;
+  padding-right: 20px;
+  margin-bottom: 30px;
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(20px);

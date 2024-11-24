@@ -1,140 +1,113 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import MessageList from "../../components/MessageList/MessageList";
-import MessageForm from "../../components/MessageForm/MessageForm";
-import UpdateAvatarModal from "../../components/UpdateAvatarModal/UpdateAvatarModal";
-import {
-  loadMessagesFromLocalStorage,
-  saveMessageToLocalStorage,
-} from "../../helper/Storage";
-import { mockMessages } from "../../assets/messages";
-import styles from "./PageChat.module.scss";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import Skeleton from "@mui/material/Skeleton";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getChatDetails } from '../../services/chat';
+import { getMessages, sendMessage } from '../../services/message';
+import { getProfile } from '../../services/profile';
+import MessageList from '../../components/MessageList/MessageList';
+import MessageForm from '../../components/MessageForm/MessageForm';
+import styles from './PageChat.module.scss';
+import Skeleton from '@mui/material/Skeleton';
+import useCentrifugo from '../../hooks/useCentrifugo';
 
 const PageChat = ({ searchValue }) => {
   const navigate = useNavigate();
   const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [friendName, setFriendName] = useState("");
-  const [friendAvatar, setFriendAvatar] = useState("");
-  const [chatExists, setChatExists] = useState(true);
-  const [storedChats, setStoredChats] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chatTitle, setChatTitle] = useState('');
+  const [chatAvatar, setChatAvatar] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+
+  useCentrifugo(chatId, setMessages);
 
   useEffect(() => {
-    const friendMessages = mockMessages.filter(
-      (message) => message.chatId === chatId,
-    );
-    const localMessages = loadMessagesFromLocalStorage(chatId) || [];
-    setMessages([...friendMessages, ...localMessages]);
-
-    const chats = JSON.parse(localStorage.getItem("chats"));
-    setStoredChats(chats || []);
-
-    const chat = chats?.find((chat) => chat.id === chatId);
-
-    if (chat) {
-      setFriendName(chat.title);
-      setFriendAvatar(
-        chat.avatar || "/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png",
-      );
-    } else {
-      setChatExists(false);
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      console.error('Необходима авторизация');
+      navigate('/login');
+      return;
     }
-  }, [chatId]);
 
-  useEffect(() => {
-    if (!chatExists) {
-      navigate("/404");
-    }
-  }, [chatExists, navigate]);
+    const fetchChatData = async () => {
+      try {
+        setLoading(true);
 
-  const handleMessageSubmit = (messageText, imageAttachment) => {
-    const newMessage = {
-      text: messageText,
-      sender: "Иван Иванов",
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      image: imageAttachment.length > 0 ? imageAttachment : null,
+        const [chatData, messagesData, profileData] = await Promise.all([
+          getChatDetails(chatId),
+          getMessages(chatId, 1, 50, searchValue),
+          getProfile(),
+        ]);
+
+        setChatTitle(chatData.title || 'Чат');
+        setChatAvatar(chatData.avatar);
+
+        const sortedMessages = messagesData.results.sort(
+          (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        );
+
+        const formattedMessages = sortedMessages.map(message => ({
+          ...message,
+          source: message.sender.id === profileData.id ? 'user' : 'other',
+        }));
+
+        setMessages(formattedMessages);
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        if (error.response?.status === 401) {
+          localStorage.removeItem('access_token');
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
-    saveMessageToLocalStorage(newMessage, chatId);
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    fetchChatData();
+  }, [chatId, searchValue, navigate]);
 
-    const updatedChats = storedChats.map((chat) =>
-      chat.id === chatId
-        ? {
-            ...chat,
-            message: messageText,
-            time: newMessage.timestamp,
-          }
-        : chat,
-    );
+  const handleSubmit = async (messageText) => {
+    if (isSending) return;
+    setIsSending(true);
 
-    localStorage.setItem("chats", JSON.stringify(updatedChats));
-    setStoredChats(updatedChats);
-  };
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-  const filteredMessages = messages.filter((message) =>
-    message.text?.toLowerCase().includes(searchValue.toLowerCase()),
-  );
-
-  const handleUpdateAvatar = (newAvatar) => {
-    const updatedChats = storedChats.map((chat) =>
-      chat.id === chatId ? { ...chat, avatar: newAvatar } : chat,
-    );
-
-    setFriendAvatar(newAvatar);
-    setStoredChats(updatedChats);
-    localStorage.setItem("chats", JSON.stringify(updatedChats));
-    setIsModalOpen(false);
+    try {
+      await sendMessage({ chat: chatId, text: messageText });
+      
+    } catch (error) {
+      console.error('Ошибка отправки сообщения:', error);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
-    <div className={styles.chatList}>
+    <div className={styles.chatPage}>
       <div className={styles.header}>
         <div className={styles.avatarWrapper}>
-          {friendAvatar && (
-            <span
-              className={styles.editIcon}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsModalOpen(true);
-              }}
-            >
-              <AddPhotoAlternateIcon />
-            </span>
-          )}
-
-          {friendAvatar ? (
-            <img
-              src={friendAvatar}
-              alt={`${friendName}'s avatar`}
-              className={styles.avatar}
-            />
+          {loading ? (
+            <Skeleton className={styles.avatar} variant="circular" width={60} height={60} />
           ) : (
-            <Skeleton variant="circular" width={60} height={60} />
+            <img
+              className={styles.avatar}
+              src={chatAvatar || '/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png'}
+              alt="Avatar"
+            />
+          )}
+          {loading ? (
+            <Skeleton variant="text" width={150} height={40} />
+          ) : (
+            <h2>{chatTitle}</h2>
           )}
         </div>
-        {friendName ? (
-          <h2 className={styles.friendName}>{friendName}</h2>
-        ) : (
-          <Skeleton variant="text" width={120} height={30} />
-        )}
       </div>
 
-      <MessageList messages={filteredMessages} />
-      <MessageForm onSubmit={handleMessageSubmit} />
-
-      {isModalOpen && (
-        <UpdateAvatarModal
-          onClose={() => setIsModalOpen(false)}
-          onUpdate={handleUpdateAvatar}
-        />
-      )}
+      <MessageList messages={messages} loading={loading} />
+      <MessageForm onSubmit={handleSubmit} />
     </div>
   );
 };

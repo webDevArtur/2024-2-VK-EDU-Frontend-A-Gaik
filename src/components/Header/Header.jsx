@@ -1,50 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
-import { useLocation, useNavigate } from "react-router-dom";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { getProfile } from "../../services/profile";
+import { logout } from "../../services/auth";
 
 const Header = React.memo(({ searchValue = "", onSearch }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("Иван Иванов");
-  const [avatar, setAvatar] = useState(
-    `/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png`,
-  );
+  const [userName, setUserName] = useState("No Name");
+  const [avatar, setAvatar] = useState(`/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png`);
+
   const showBackArrow =
-    location.pathname.startsWith("/chat/") || location.pathname === "/profile";
+    location.pathname.startsWith("/chat/") || location.pathname === "/profile" || location.pathname === "/add-chat";
 
   const handleBackClick = () => {
-    navigate(-1);
+    if (location.pathname !== "/login" && location.pathname !== "/register") {
+      navigate(-1);
+    }
   };
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("profile");
-    if (storedProfile) {
-      const profile = JSON.parse(storedProfile);
-      setUserName(`${profile.firstName} ${profile.lastName}`);
-      setAvatar(profile.avatar);
+    const fetchUserProfile = () => {
+      getProfile()
+        .then((response) => {
+          setUserName(`${response.first_name} ${response.last_name}`);
+          setAvatar(response.avatar || "/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png");
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке данных пользователя:", error);
+        });
+    };
+
+    if (location.pathname !== "/login" && location.pathname !== "/register") {
+      fetchUserProfile();
     }
   }, [location.pathname]);
+
+  const isLoginOrRegisterPage =
+    location.pathname === "/login" || location.pathname === "/register";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <header className={styles.chatHeader}>
       <div className={styles.chatTitle}>
-        {showBackArrow && (
+        {showBackArrow && !isLoginOrRegisterPage && (
           <ArrowBackIcon
             className={styles.backArrowIcon}
             onClick={handleBackClick}
           />
         )}
 
-        <Link to="/" className={styles.chatTitleLink}>
-          VKchat
-          <SendIcon className={styles.chatTitleIcon} />
-        </Link>
+        {!isLoginOrRegisterPage ? (
+          <Link to="/" className={styles.chatTitleLink}>
+            VKchat
+            <SendIcon className={styles.chatTitleIcon} />
+          </Link>
+        ) : (
+          <span className={styles.chatTitleLink}>
+            VKchat
+            <SendIcon className={styles.chatTitleIcon} />
+          </span>
+        )}
       </div>
 
-      {location.pathname !== "/profile" && (
+      {!isLoginOrRegisterPage && location.pathname !== "/profile" && (
         <div className={styles.searchContainer}>
           <input
             type="text"
@@ -59,6 +85,11 @@ const Header = React.memo(({ searchValue = "", onSearch }) => {
             <img src={avatar} alt="Аватар" className={styles.userInfoIcon} />
             <span className={styles.userName}>{userName}</span>
           </div>
+
+          <ExitToAppIcon
+            className={styles.exitIcon}
+            onClick={handleLogout}
+          />
         </div>
       )}
     </header>
