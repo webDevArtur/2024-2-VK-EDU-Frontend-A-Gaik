@@ -14,7 +14,7 @@ axios.defaults.responseType = 'json';
 axios.interceptors.request.use(
   config => {
     const isAuthRequest =
-      config.url.includes('/auth/login')
+      config.url.includes('/auth/login') || config.url.includes('/auth/register');
     const token = getAccessToken();
 
     if (!isAuthRequest && token) {
@@ -37,8 +37,7 @@ axios.interceptors.response.use(
         logoutUser();
         throw new Error('Авторизация истекла. Пожалуйста, войдите снова.');
       } catch (logoutError) {
-        console.error('Не удалось обновить токен:', logoutError);
-        throw new Error('Не удалось выйти из системы.');
+        throw new Error('Ошибка авторизации. Пожалуйста, попробуйте снова.');
       }
     }
 

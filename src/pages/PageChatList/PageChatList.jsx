@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FloatingActionButton from "../../components/FloatingActionButton/FloatingActionButton";
 import ChatItem from '../../components/ChatItem/ChatItem';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import styles from './PageChatList.module.scss';
 import { getChats, deleteChat } from '../../services/chat';
 
@@ -12,6 +12,8 @@ const PageChatList = ({ searchValue }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [chatToDelete, setChatToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,9 +37,20 @@ const PageChatList = ({ searchValue }) => {
     try {
       await deleteChat(id);
       setChats((prevChats) => prevChats.filter(chat => chat.id !== id));
+      setOpenConfirmDialog(false); // Закрытие окна подтверждения
     } catch (err) {
       console.error("Ошибка при удалении чата:", err);
     }
+  };
+
+  const openDialog = (chat) => {
+    setChatToDelete(chat);
+    setOpenConfirmDialog(true);
+  };
+
+  const closeDialog = () => {
+    setOpenConfirmDialog(false);
+    setChatToDelete(null);
   };
 
   return (
@@ -57,7 +70,7 @@ const PageChatList = ({ searchValue }) => {
             {...chat}
             avatar={chat.avatar || defaultAvatar}
             onClick={() => navigate(`/chat/${chat.id}`)}
-            onDelete={handleDeleteChat}
+            onDelete={() => openDialog(chat)} // Открытие окна подтверждения
           />
         ))
       ) : (
@@ -65,6 +78,24 @@ const PageChatList = ({ searchValue }) => {
       )}
 
       <FloatingActionButton onClick={() => navigate('/add-chat')} />
+
+      <Dialog
+        open={openConfirmDialog}
+        onClose={closeDialog}
+      >
+        <DialogTitle>Подтвердите удаление</DialogTitle>
+        <DialogContent>
+          <p>Вы уверены, что хотите удалить этот чат?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog} color="primary">
+            Отмена
+          </Button>
+          <Button onClick={() => handleDeleteChat(chatToDelete.id)} color="primary">
+            Удалить
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

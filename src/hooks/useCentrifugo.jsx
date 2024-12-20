@@ -74,14 +74,13 @@ const useCentrifuge = (chatId, setMessages) => {
 
         centrifuge.on('error', (error) => {
           console.error('Ошибка при подключении Centrifuge:', error);
-        });
-
-        setTimeout(() => {
-          if (!centrifuge.isConnected()) {
-            console.warn('Подключение не установлено, повторная попытка...');
+        
+          setTimeout(() => {
+            console.warn('Попытка повторного подключения...');
             centrifuge.connect();
-          }
-        }, 10000);
+          }, 5000);
+        });
+        
 
       } catch (error) {
         console.error('Ошибка при инициализации Centrifuge:', error);

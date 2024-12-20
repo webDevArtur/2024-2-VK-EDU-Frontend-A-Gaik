@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth";
 import { Link } from "react-router-dom";
@@ -20,9 +20,9 @@ const RegisterPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleFileChange = (e) => {
-  //   setFormData((prev) => ({ ...prev, avatar: e.target.files[0] }));
-  // };
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({ ...prev, avatar: e.target.files[0] }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const RegisterPage = () => {
 
   return (
     <div className={styles.registerPage}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} encType="multipart/form-data">
         <h2 className={styles.title}>Регистрация</h2>
 
         <input
@@ -82,19 +82,20 @@ const RegisterPage = () => {
           onChange={handleChange}
           className={styles.textarea}
         />
-        {/* <input
+        <input
           type="file"
           name="avatar"
+          required
           onChange={handleFileChange}
           className={styles.inputFile}
-        /> */}
+        />
 
         <button type="submit" className={styles.submitButton}>
           Зарегистрироваться
         </button>
 
         <p className={styles.switchText}>
-        Уже есть аккаунт? <Link to="/login" className={styles.switchLink}>Войти</Link>
+          Уже есть аккаунт? <Link to="/login" className={styles.switchLink}>Войти</Link>
         </p>
       </form>
     </div>

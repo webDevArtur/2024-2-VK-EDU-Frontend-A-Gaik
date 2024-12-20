@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getChatDetails } from '../../services/chat';
-import { getMessages, sendMessage } from '../../services/message';
-import { getProfile } from '../../services/profile';
-import MessageList from '../../components/MessageList/MessageList';
-import MessageForm from '../../components/MessageForm/MessageForm';
-import styles from './PageChat.module.scss';
-import Skeleton from '@mui/material/Skeleton';
-import useCentrifugo from '../../hooks/useCentrifugo';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getChatDetails } from "../../services/chat";
+import { getMessages, sendMessage } from "../../services/message";
+import { getProfile } from "../../services/profile";
+import MessageList from "../../components/MessageList/MessageList";
+import MessageForm from "../../components/MessageForm/MessageForm";
+import styles from "./PageChat.module.scss";
+import Skeleton from "@mui/material/Skeleton";
+import useCentrifugo from "../../hooks/useCentrifugo";
 
 const PageChat = ({ searchValue }) => {
   const navigate = useNavigate();
   const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [chatTitle, setChatTitle] = useState('');
+  const [chatTitle, setChatTitle] = useState("");
   const [chatAvatar, setChatAvatar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
@@ -21,10 +21,10 @@ const PageChat = ({ searchValue }) => {
   useCentrifugo(chatId, setMessages);
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
-      console.error('Необходима авторизация');
-      navigate('/login');
+      console.error("Необходима авторизация");
+      navigate("/login");
       return;
     }
 
@@ -38,24 +38,24 @@ const PageChat = ({ searchValue }) => {
           getProfile(),
         ]);
 
-        setChatTitle(chatData.title || 'Чат');
+        setChatTitle(chatData.title || "Чат");
         setChatAvatar(chatData.avatar);
 
         const sortedMessages = messagesData.results.sort(
           (a, b) => new Date(a.created_at) - new Date(b.created_at)
         );
 
-        const formattedMessages = sortedMessages.map(message => ({
+        const formattedMessages = sortedMessages.map((message) => ({
           ...message,
-          source: message.sender.id === profileData.id ? 'user' : 'other',
+          source: message.sender.id === profileData.id ? "user" : "other",
         }));
 
         setMessages(formattedMessages);
       } catch (error) {
-        console.error('Ошибка загрузки данных:', error);
+        console.error("Ошибка загрузки данных:", error);
         if (error.response?.status === 401) {
-          localStorage.removeItem('access_token');
-          navigate('/login');
+          localStorage.removeItem("access_token");
+          navigate("/login");
         }
       } finally {
         setLoading(false);
@@ -65,28 +65,28 @@ const PageChat = ({ searchValue }) => {
     fetchChatData();
   }, [chatId, searchValue, navigate]);
 
-  const handleSubmit = async (messageText) => {
+  const handleSubmit = async (formData) => {
     if (isSending) return;
     setIsSending(true);
 
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
     try {
-      await sendMessage({ chat: chatId, text: messageText });
-      
+      formData.append("chat", chatId);
+      await sendMessage(formData);
     } catch (error) {
-      console.error('Ошибка отправки сообщения:', error);
+      console.error("Ошибка отправки сообщения:", error);
     } finally {
       setIsSending(false);
     }
   };
 
   return (
-    <div className={styles.chatPage}>
+    <div>
       <div className={styles.header}>
         <div className={styles.avatarWrapper}>
           {loading ? (
@@ -94,7 +94,7 @@ const PageChat = ({ searchValue }) => {
           ) : (
             <img
               className={styles.avatar}
-              src={chatAvatar || '/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png'}
+              src={chatAvatar || "/2024-2-VK-EDU-Frontend-A-Gaik/defaultAvatar.png"}
               alt="Avatar"
             />
           )}

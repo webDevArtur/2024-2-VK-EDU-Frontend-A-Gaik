@@ -2,49 +2,43 @@ import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiPicker from "emoji-picker-react";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-// import AttachFileIcon from "@mui/icons-material/AttachFile";
-// import CloseIcon from "@mui/icons-material/Close";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloseIcon from "@mui/icons-material/Close";
 import styles from "./MessageForm.module.scss";
 
 const MessageForm = ({ onSubmit }) => {
   const [messageText, setMessageText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  // const [imageAttachments, setImageAttachments] = useState([]);
+  const [imageAttachments, setImageAttachments] = useState([]);
 
   const handleEmojiClick = (emoji) => {
     setMessageText((prev) => prev + emoji.emoji);
     setShowEmojiPicker(false);
   };
 
-  // const getBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => resolve(reader.result);
-  //     reader.onerror = reject;
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setImageAttachments(files);
+    }
+  };
 
-  // const handleImageChange = async (e) => {
-  //   const files = Array.from(e.target.files);
-  //   if (files.length > 0) {
-  //     const file = files[0];
-  //     if (file.type.startsWith("image/")) {
-  //       const base64Image = await getBase64(file);
-  //       setImageAttachments([base64Image]);
-  //     }
-  //   }
-  // };
-
-  // const handleRemoveImage = () => {
-  //   setImageAttachments([]);
-  // };
+  const handleRemoveImage = () => {
+    setImageAttachments([]);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (messageText.trim() || imageAttachments.length > 0) {
-      onSubmit(messageText, imageAttachments);
+      const formData = new FormData();
+      formData.append("text", messageText);
+      
+      imageAttachments.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      onSubmit(formData);
       setMessageText("");
       setImageAttachments([]);
     }
@@ -62,7 +56,7 @@ const MessageForm = ({ onSubmit }) => {
           onChange={(e) => setMessageText(e.target.value)}
         />
 
-        {/* <input
+        <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
@@ -71,7 +65,7 @@ const MessageForm = ({ onSubmit }) => {
         />
         <label htmlFor="imageInput" className={styles.iconButton}>
           <AttachFileIcon />
-        </label> */}
+        </label>
 
         <button
           type="button"
@@ -92,11 +86,11 @@ const MessageForm = ({ onSubmit }) => {
         </button>
       </form>
 
-      {/* {imageAttachments.length > 0 && (
+      {imageAttachments.length > 0 && (
         <div className={styles.imagePreviewContainerWrapper}>
           <div className={styles.imagePreviewContainer}>
             <img
-              src={imageAttachments[0]}
+              src={URL.createObjectURL(imageAttachments[0])}
               alt="attachment preview"
               className={styles.imagePreview}
             />
@@ -109,7 +103,7 @@ const MessageForm = ({ onSubmit }) => {
             </button>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 };

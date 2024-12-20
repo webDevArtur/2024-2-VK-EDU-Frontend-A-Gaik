@@ -67,7 +67,7 @@ const LoginPage = () => {
         </button>
 
         <p className={styles.switchText}>
-          Нет аккаунта?{' '}
+          Нет аккаунта?
           <Link to="/register" className={styles.switchLink}>
             Зарегистрироваться
           </Link>

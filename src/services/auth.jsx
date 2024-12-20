@@ -16,10 +16,7 @@ export const registerUser = async (userData) => {
     formData.append(key, userData[key]);
   });
 
-  const response = await api("/api/register/", {
-    method: "POST",
-    data: formData,
-  });
+  const response = await api('POST', "/register/", {data: formData});
 
   return response;
 };
