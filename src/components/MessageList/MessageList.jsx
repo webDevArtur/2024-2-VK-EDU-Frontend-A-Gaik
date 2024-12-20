@@ -3,7 +3,7 @@ import styles from "./MessageList.module.scss";
 import Skeleton from "@mui/material/Skeleton";
 
 const MessageList = ({ messages, loading }) => {
-  const renderMessage = ({ source, sender, text, created_at, files }, index) => {
+  const renderMessage = ({ source, sender, text, created_at, files, voice }, index) => {
     const image = files && files.length > 0 ? files[0].item : null;
 
     return (
@@ -16,6 +16,15 @@ const MessageList = ({ messages, loading }) => {
             {sender && sender.username ? sender.username : "Неизвестный пользователь"}
           </div>
           <div className={styles.messageText}>{text}</div>
+          {voice && (
+            <audio
+              controls
+              className={styles.messageAudio}
+            >
+              <source src={voice} type="audio/mpeg" />
+              Ваш браузер не поддерживает воспроизведение аудио.
+            </audio>
+          )}
           {image && (
             <img
               src={image}
