@@ -1,0 +1,57 @@
+.addChatPage {
+  padding: 20px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.chatList {
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.paginationButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #55759e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.paginationButton:disabled {
+  background-color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.paginationButton:hover {
+  background-color: #466793;
+}
+
+.skeletonPagination {
+  display: flex;
+  gap: 10px;
+}
+
+.skeletonPagination > .MuiSkeleton-root {
+  width: 50px;
+}
+
+.skeletonPagination > .MuiSkeleton-root:last-child {
+  width: 80px;
+}
