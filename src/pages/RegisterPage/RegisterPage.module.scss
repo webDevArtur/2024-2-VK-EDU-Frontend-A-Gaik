@@ -1,0 +1,149 @@
+.registerPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .input,
+  .textarea,
+  .inputFile {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .input:focus,
+  .textarea:focus,
+  .inputFile:focus {
+    border-color: #55759e;
+  }
+
+  .textarea {
+    height: 100px;
+  }
+
+  .inputFile {
+    padding: 5px;
+  }
+
+  .submitButton {
+    padding: 10px;
+    background-color: #55759e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .submitButton:hover {
+    background-color: #466793;
+  }
+
+  .submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .inputFile {
+    margin-top: 5px;
+  }
+  
+  .inputFile::file-selector-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #55759e;
+    color: #ffffff;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .inputFile::file-selector-button:hover {
+    background-color: #466793;
+  }
+
+  .modalField {
+    margin-bottom: 15px;
+  }
+  
+  .modalLabel {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .modalInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .modalButton {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #55759e;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .modalButton:hover {
+    background-color: #466793;
+  }
+  
+  .modalInput[type="file"] {
+    margin-top: 5px;
+  }
+
+  .switchLink {
+    margin-left: 5px;
+    color: #55759e;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .switchLink:hover {
+    color: #466793;
+  }
+
+  .switchText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }

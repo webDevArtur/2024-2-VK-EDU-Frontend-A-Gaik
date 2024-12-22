@@ -1,0 +1,94 @@
+.loginPage {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .title {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .input:focus {
+    border-color: #55759e;
+  }
+  
+  .inputError {
+    border-color: red;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin: 10px 0;
+  }  
+
+  .submitButton {
+    padding: 12px;
+    background-color: #55759e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .submitButton:hover {
+    background-color: #466793;
+  }
+  
+  .submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  .switchLink {
+    margin-left: 5px;
+    color: #55759e;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .switchLink:hover {
+    color: #466793;
+  }
+
+  .switchText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  

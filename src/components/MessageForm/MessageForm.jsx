@@ -16,23 +16,10 @@ const MessageForm = ({ onSubmit }) => {
     setShowEmojiPicker(false);
   };
 
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      const file = files[0];
-      if (file.type.startsWith("image/")) {
-        const base64Image = await getBase64(file);
-        setImageAttachments([base64Image]);
-      }
+      setImageAttachments(files);
     }
   };
 
@@ -44,7 +31,14 @@ const MessageForm = ({ onSubmit }) => {
     event.preventDefault();
 
     if (messageText.trim() || imageAttachments.length > 0) {
-      onSubmit(messageText, imageAttachments);
+      const formData = new FormData();
+      formData.append("text", messageText);
+      
+      imageAttachments.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      onSubmit(formData);
       setMessageText("");
       setImageAttachments([]);
     }
@@ -96,7 +90,7 @@ const MessageForm = ({ onSubmit }) => {
         <div className={styles.imagePreviewContainerWrapper}>
           <div className={styles.imagePreviewContainer}>
             <img
-              src={imageAttachments[0]}
+              src={URL.createObjectURL(imageAttachments[0])}
               alt="attachment preview"
               className={styles.imagePreview}
             />
