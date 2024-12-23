@@ -1,0 +1,132 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.translatedContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.title {
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+    color: #202124;
+    font-weight: 500;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.textarea {
+    width: 100%;
+    height: 120px;
+    padding: 16px;
+    font-size: 1.1rem;
+    border: 1px solid #dcdfe1;
+    border-radius: 8px;
+    resize: none;
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.textarea:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 6px rgba(66, 133, 244, 0.3);
+}
+
+.selectWrapper {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.select {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #dcdfe1;
+    background-color: #f5f5f5;
+    transition: all 0.3s ease;
+}
+
+.buttonContainer {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.button:hover {
+    background-color: #357ae8;
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(66, 133, 244, 0.3);
+}
+
+.resultTextarea {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.historyIcon {
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 50%;
+    padding: 8px;
+    font-size: 24px !important;
+}
+
+.historyLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(0, 0, 0, .54);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-top: 8px;
+}
+
+.historyLink:hover {
+    text-decoration: none;
+}
+
+@media (max-width: 868px) {
+    .translatedContainer {
+        flex-direction: column;    
+    }
+
+    .buttonContainer {
+        width: 100%;
+    }
+}
