@@ -25,10 +25,23 @@ const MainPage: React.FC = () => {
         setError(null);
 
         try {
-            const translatedText = await fetchTranslation(text, fromLanguage, toLanguage);
+            const { translatedText, detectedLanguage } = await fetchTranslation(text, fromLanguage, toLanguage);
+
+            let matchedLang = fromLanguage;
+
+            if (fromLanguage === 'Autodetect' && detectedLanguage) {
+                matchedLang = Object.keys(languages).find(key => key.startsWith(detectedLanguage)) || fromLanguage;
+
+                if (matchedLang !== fromLanguage) {
+                    setFromLanguage(matchedLang);
+                }
+            }
+
             setResult(translatedText);
 
-            dispatch(addTranslation({ text, translatedText, fromLanguage, toLanguage }));
+            if (matchedLang !== 'Autodetect') {
+                dispatch(addTranslation({ text, translatedText, fromLanguage: matchedLang, toLanguage }));
+            }
 
         } catch {
             setError('Произошла ошибка при переводе');

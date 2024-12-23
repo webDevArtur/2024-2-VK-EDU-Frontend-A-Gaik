@@ -20,8 +20,19 @@ const historySlice = createSlice({
     initialState,
     reducers: {
         addTranslation(state, action: PayloadAction<HistoryItem>) {
-            state.items.push(action.payload);
-            localStorage.setItem('history', JSON.stringify(state.items));
+            const newItem = action.payload;
+
+            const isDuplicate = state.items.some(
+                item =>
+                    item.text === newItem.text &&
+                    item.fromLanguage === newItem.fromLanguage &&
+                    item.toLanguage === newItem.toLanguage
+            );
+
+            if (!isDuplicate) {
+                state.items.push(newItem);
+                localStorage.setItem('history', JSON.stringify(state.items));
+            }
         },
         clearHistory(state) {
             state.items = [];
